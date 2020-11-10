@@ -1,29 +1,38 @@
 const inquirer = require("inquirer");
+const fs = require("fs");
 
-console.log("PW4U");
-
-const secretMasterPassword = "katze";
 const questions = [
   {
-    type: "input",
+    type: "password",
     name: "masterPassword",
     message: "What is the super secret master password?",
+    mask: "*",
   },
 ];
-const passwordSafe = {
-  wifi: "123",
-  gmx: "qwertz",
-};
 
-async function validateAccess() {
+// const passwordSafe = {
+//   wifi: "123",
+//   gmx: "qwertz",
+// };
+const passwordSafe = JSON.parse(fs.readFileSync("./db.json", "utf-8"));
+
+// passwordSafe.readFile("./db.json", "utf8", (err, data) => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
+//   console.log(data);
+// });
+
+async function validateAccess(passwordSafe) {
   const { masterPassword } = await inquirer.prompt(questions);
+  const password = passwordSafe[passwordName];
 
-  if (masterPassword !== secretMasterPassword) {
-    console.error("You are not welcome here! 👿");
+  if ((await masterPassword) !== passwordSafe.master) {
+    console.error("Your password is invalid!");
     validateAccess();
     return;
   }
-  const password = passwordSafe[passwordName];
 
   if (password) {
     console.log(`Password ist ${password}`);
@@ -35,4 +44,4 @@ const args = process.argv.slice(2);
 const passwordName = args[0];
 console.log(`You want to know the password of '${passwordName}'`);
 
-validateAccess();
+validateAccess(passwordSafe);
