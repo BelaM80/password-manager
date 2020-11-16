@@ -40,12 +40,11 @@ app.post("/api/passwords", async (request, response) => {
 });
 
 app.delete("/api/passwords/:name", async (request, response) => {
-  const { name } = request.params;
   try {
-    await deletePassword(name);
-    if (!name) {
-      response.status(404).send(`${name} not found`);
-      return;
+    const { name } = request.params;
+    const result = await deletePassword(name);
+    if (result.deletedCount === 0) {
+      return response.status(404).send(`${name} not found`);
     }
     response.send(`Successfully deleted ${name}`);
   } catch (error) {
