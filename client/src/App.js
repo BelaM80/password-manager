@@ -1,29 +1,28 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getPassword } from "./api/passwords";
 
 function App() {
   const [password, setPassword] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const doFetch = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const newPassword = await getPassword(inputValue);
-        setPassword(newPassword);
-      } catch (error) {
-        console.log(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    doFetch();
-  }, [inputValue]);
+  const doFetch = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const newPassword = await getPassword(inputValue);
+      setPassword(newPassword);
+      console.log(inputValue);
+      console.log(newPassword);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="App">
@@ -33,20 +32,20 @@ function App() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            getPassword(inputValue);
+            doFetch();
             setInputValue("");
           }}
         >
           <input
             type="text"
+            placeholder="enter passwordname"
+            // required
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button type="submit" onClick={(e) => setInputValue(e.target.value)}>
-            name
-          </button>
-          <div>{inputValue && password}</div>
-        </form>{" "}
+          <button type="submit">name</button>
+        </form>
+        <div>{password}</div>
       </header>
     </div>
   );
