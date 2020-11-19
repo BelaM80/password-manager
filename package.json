@@ -8,7 +8,8 @@
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "storybook": "cd client && npm run storybook",
-    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run storybook\""
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run storybook\"",
+    "postinstall": "cd client && npm install"
   },
   "repository": {
     "type": "git",
