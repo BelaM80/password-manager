@@ -1,27 +1,19 @@
 import "./App.css";
 import { useState } from "react";
 import { getPassword } from "./api/passwords";
+import useAsync from "./hooks/useAsync";
+import { useForm } from "react-hook-form";
 
 function App() {
-  const [password, setPassword] = useState(null);
   const [inputValue, setInputValue] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, errors } = useForm();
+  const { data, loading, error, doFetch } = useAsync(() =>
+    getPassword(inputValue)
+  );
 
-  const doFetch = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const newPassword = await getPassword(inputValue);
-      setPassword(newPassword);
-      console.log(inputValue);
-      console.log(newPassword);
-    } catch (error) {
-      console.log(error);
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (data) => {
+    console.log(data);
+    doFetch();
   };
 
   return (
@@ -29,6 +21,23 @@ function App() {
       <header>
         {loading && <div>Loading...</div>}
         {error && <div>{error.message}</div>}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input
+            type="text"
+            placeholder="Passwordname"
+            name="inputValue"
+            ref={register}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            ref={register({ required: "PASSWORD REQUIRED", minLength: 8 })}
+          />
+          {errors.password && <p>{errors.password.message}</p>}
+          <input type="submit" />
+        </form>
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -43,9 +52,9 @@ function App() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button type="submit">name</button>
+          <button type="submit">Submit</button>
         </form>
-        <div>{password}</div>
+        <div>{data}</div>
       </header>
     </div>
   );
