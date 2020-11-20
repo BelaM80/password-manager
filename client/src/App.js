@@ -30,8 +30,9 @@ function App() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button type="submit">Submit</button>
+          <input type="submit" />
         </form>
+
         <div>{data}</div>
       </header>
     </div>
