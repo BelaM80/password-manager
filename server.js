@@ -70,14 +70,11 @@ app.get("*", (request, response) => {
 
 async function run() {
   console.log("Connecting to database...");
-  await connect(
-    `mongodb+srv://${process.env.MONGODB_PASSWORD}@cluster0.ezugy.mongodb.net/passwords-manager?retryWrites=true&w=majority`,
-    "passwords-manager"
-  );
+  await connect((process.env.MONGO_DB_URI, process.env.MONGO_DB_NAME));
   console.log("Connected to database.");
 
   app.listen(port, () => {
-    console.log(`Password-Manager API listening alt http://localhost:${port}`);
+    console.log(`Password-Manager API listening at http://localhost:${port}`);
   });
 }
 run();

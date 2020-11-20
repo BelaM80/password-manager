@@ -6,25 +6,6 @@ require("dotenv").config();
 
 const { connect, close } = require("./lib/database");
 
-// Connection URL
-// const url =
-//   "mongodb+srv://bela:j2OP3IPKjbtOnKc9@cluster0.ezugy.mongodb.net/password-manager?retryWrites=true&w=majority";
-
-// Use connect method to connect to the Server
-// MongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
-//   assert.equal(null, err);
-//   const db = client.db("passwords-manager");
-//   db.collection("passwords")
-//     .insertOne({
-//       name: "test",
-//       value: "blblb",
-//     })
-//     .then(function (result) {
-//       // process result
-//     });
-//   // client.close();
-// });
-
 async function run() {
   console.log("Connecting to database...");
   await connect((process.env.MONGO_DB_URI, process.env.MONGO_DB_NAME));
