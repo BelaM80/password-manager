@@ -70,7 +70,7 @@ app.get("*", (request, response) => {
 
 async function run() {
   console.log("Connecting to database...");
-  await connect((process.env.MONGO_DB_URI, process.env.MONGO_DB_NAME));
+  await connect(process.env.MONGO_DB_URI, process.env.MONGO_DB_NAME);
   console.log("Connected to database.");
 
   app.listen(port, () => {
