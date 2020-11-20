@@ -31,6 +31,14 @@ function App() {
             onChange={(e) => setInputValue(e.target.value)}
           />
           <input type="submit" />
+          <input
+            type="text"
+            placeholder="enter passwordname"
+            // required
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <input type="submit" />
         </form>
 
         <div>{data}</div>
